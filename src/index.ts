@@ -124,7 +124,7 @@ export default class Bus extends EventEmitter {
    * publish messages on the topic pattern.
    * @param  {string}        label   The label
    * @param  {string}        pattern The topic pattern
-   * @return {Promise<null>}         Resolves on success
+   * @return {void}                  Resolves on success
    */
   public addPattern (label: string, pattern: string): void {
     if (this._publicationLabels.has(label)) {
@@ -298,6 +298,7 @@ export default class Bus extends EventEmitter {
       this._subscriptionTopics = []
       this._client = null
       this._setStatus(Status.READY)
+      resolve()
     })
   }
 
