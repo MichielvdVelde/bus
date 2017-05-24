@@ -47,9 +47,14 @@ bus.publish('updateConfig', { keys: [ 'status' ] }, 'online')
 
 This list is not exhaustive and my change at any moment.
 
-- Find a good name for `bus.onLabel` and `bus.onceLabel`
+- Catch possible thrown error by `params` in `bus.publish()`
+- Find a good name for `bus.onLabel` and `bus.onceLabel` and `bus.addPattern`
 - Improve `bus.isAvailable()` so the correct statuses are taken into account
 - Better handling of the mqtt.js `error` event in `bus._addEventListeners()`
+
+## Done
+
+- De-promisify `bus.addPattern()`
 
 ## Inspired by
 
