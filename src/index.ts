@@ -126,22 +126,13 @@ export default class Bus extends EventEmitter {
    * @param  {string}        pattern The topic pattern
    * @return {Promise<null>}         Resolves on success
    */
-  public addPattern (label: string, pattern: string): Promise<null> {
-    return new Promise((resolve, reject) => {
-      if (this._publicationLabels.has(label)) {
-        return reject(new Error(`addPattern: label already in use (${label})`))
-      }
+  public addPattern (label: string, pattern: string): void {
+    if (this._publicationLabels.has(label)) {
+      throw new Error(`addPattern: label already in use (${label})`)
+    }
 
-      let _pattern: Pattern
-      try {
-        _pattern = Pattern.from(pattern)
-      } catch (e) {
-        return reject(e)
-      }
-
-      this._publicationLabels.set(label, _pattern)
-      resolve()
-    })
+    const  _pattern: Pattern = Pattern.from(pattern)
+    this._publicationLabels.set(label, _pattern)
   }
 
   /**
