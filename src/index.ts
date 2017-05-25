@@ -252,9 +252,9 @@ export default class Bus extends EventEmitter {
    * @param  {any}                                 params  Parameters to build the topic with
    * @param  {any}                                 payload The message payload
    * @param  {IClientPublishOptions}               opts    Options (optional)
-   * @return {Promise<IClientPublishOptions>}              Resolves on success
+   * @return {Promise<null>}                               Resolves on success
    */
-  public publish (label: string, params: any, payload: any, opts?: IClientPublishOptions): Promise<IPacket> {
+  public publish (label: string, params: any, payload: any, opts?: IClientPublishOptions): Promise<null> {
     return new Promise((resolve, reject) => {
       if (!this.isAvailable()) {
         return reject(new Error('publish: bus not available'))
