@@ -30,9 +30,9 @@ export function tokenize (pattern: string): Token[] {
  * Builds the regular expression for the pattern.
  */
 export function buildRegularExpression (tokens: Token[]): RegExp {
-  const regexStr:string = tokens.reduce((acc, token, index) => {
-    const isLast: boolean = (index == (tokens.length - 1))
-    const beforeMulti: boolean = (index === (tokens.length - 2)) && (getLastItem(tokens).type == TokenTypes.MULTI)
+  const regexStr = tokens.reduce((acc, token, index) => {
+    const isLast = (index == (tokens.length - 1))
+    const beforeMulti = (index === (tokens.length - 2)) && (getLastItem(tokens).type == TokenTypes.MULTI)
     return acc + ((isLast || beforeMulti) ? token.last : token.piece)
   }, '')
 
@@ -44,12 +44,12 @@ export function buildRegularExpression (tokens: Token[]): RegExp {
  */
 export function buildParameterFunction (tokens: Token[]): Function {
   return function (results: string[]) {
-    const captureTokens: Token[] = removeRawTokens(tokens)
+    const captureTokens = removeRawTokens(tokens)
     let params: any = {}
 
     if (!results) return params
     results.slice(1).forEach((capture, index) => {
-      const token: Token = captureTokens[index]
+      const token = captureTokens[index]
       let param: any = capture
 
       if (!token.name) {
@@ -82,7 +82,7 @@ export function buildParameterCount (tokens: Token[]) {
  * Processes a token.
  */
 function processToken (token: string, index: number, tokens: string[]): Token {
-  const last: boolean = (index === (tokens.length - 1))
+  const last = (index === (tokens.length - 1))
   if (token[0] === '+') {
     return processSingle(token)
   } else if (token[0] === '#') {

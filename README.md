@@ -16,8 +16,9 @@ accordingly.
 ```ts
 import Bus from './bus'
 
-// First argument is an (optional) context to bind `onLabel` and `onceLabel` to
-const Bus: Bus = Bus.create(null, 'my-client-id', 'mqtt://localhost')
+const Bus = Bus.create('my-client-id', 'mqtt://localhost')
+
+bus.setPattern('statusUpdate', 'devices/+deviceId/status')
 
 bus.connect().then(() => {
   // This function will be called each time `statusUpdate` is received
@@ -27,8 +28,8 @@ bus.connect().then(() => {
     console.log(`Device ${packet.params.deviceId} is now ${packet.payload}`)
   })
 
-  // Create the label `statusUpdate` for the given topic
-  return bus.subscribe('statusUpdate', 'devices/+deviceId/status')
+  // Subscribe to the topic label
+  return bus.subscribe('statusUpdate')
 })
 ```
 
@@ -47,14 +48,8 @@ bus.publish('updateConfig', { keys: [ 'status' ] }, 'online')
 
 This list is not exhaustive and my change at any moment.
 
-- Catch possible thrown error by `params` in `bus.publish()`
-- Find a good name for `bus.onLabel` and `bus.onceLabel` and `bus.addPattern`
 - Improve `bus.isAvailable()` so the correct statuses are taken into account
 - Better handling of the mqtt.js `error` event in `bus._addEventListeners()`
-
-## Done
-
-- De-promisify `bus.addPattern()`
 
 ## Inspired by
 

@@ -12,7 +12,7 @@ export default class Pattern {
   private _paramCount: number
 
   private constructor (pattern: string) {
-    const tokens: Helpers.Token[] = Helpers.tokenize(pattern)
+    const tokens = Helpers.tokenize(pattern)
 
     this._pattern = pattern
     this._topic = Helpers.buildTopic(tokens)
