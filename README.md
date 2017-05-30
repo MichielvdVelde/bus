@@ -16,7 +16,7 @@ accordingly.
 ```ts
 import Bus from './bus'
 
-const Bus = Bus.create('my-client-id', 'mqtt://localhost')
+const bus = Bus.create('my-client-id', 'mqtt://localhost')
 
 bus.setPattern('statusUpdate', 'devices/+deviceId/status')
 
