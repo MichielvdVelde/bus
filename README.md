@@ -36,7 +36,7 @@ bus.connect().then(() => {
 ```ts
 // Add a topic pattern with the given label
 // #keys at the end is a parameteraized wildcard
-bus.addPattern('updateConfig', 'devices/my-device/config/#keys')
+bus.setPattern('updateConfig', 'devices/my-device/config/#keys')
 
 // This will send the word 'online' to devices/my-device/config/status
 bus.publish('updateConfig', { keys: [ 'status' ] }, 'online')
