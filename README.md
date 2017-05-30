@@ -46,6 +46,8 @@ bus.publish('updateConfig', { keys: [ 'status' ] }, 'online')
 
 This list is not exhaustive and my change at any moment.
 
+- Check the `listenerCount()` for messages in `_handleMessagePacket`
+- Improve JSON parse in `on('message')` (currently numbers are seen as valid JSON)
 - Improve `bus.isAvailable()` so the correct statuses are taken into account
 - Better handling of the mqtt.js `error` event in `bus._addEventListeners()`
 
