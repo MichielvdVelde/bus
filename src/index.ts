@@ -86,6 +86,9 @@ export class Bus {
    * @return {Bus}            The Bus instance
    */
   public on (label: string, fn: (packet: IPacket) => void): Bus {
+    if (!this._patterns.has(label)) {
+      throw new Error(`invalid label (${label})`)
+    }
     this._messageEvents.on(label, fn)
     return this
   }
@@ -97,6 +100,9 @@ export class Bus {
    * @return {Bus}            The Bus instance
    */
   public once (label: string, fn: (packet: IPacket) => void): Bus {
+    if (!this._patterns.has(label)) {
+      throw new Error(`invalid label (${label})`)
+    }
     this._messageEvents.once(label, fn)
     return this
   }
@@ -108,6 +114,9 @@ export class Bus {
    * @return {Bus}            The Bus instance
    */
   public removeListener (label: string, fn: (packet: IPacket) => void): Bus {
+    if (!this._patterns.has(label)) {
+      throw new Error(`invalid label (${label})`)
+    }
     this._messageEvents.removeListener(label, fn)
     return this
   }
@@ -118,7 +127,9 @@ export class Bus {
    * @return {Bus}          The Bus instance
    */
   public removeAllListeners (label?: string): Bus {
-    if (label) {
+    if (label && !this._patterns.has(label)) {
+      throw new Error(`invalid label (${label})`)
+    } else if (label) {
       this._messageEvents.removeAllListeners(label)
     } else {
       this._messageEvents.removeAllListeners()
