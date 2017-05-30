@@ -166,6 +166,8 @@ export class Bus {
       }
 
       this._client.end(force, () => {
+        this._client.removeAllListeners()
+        this._client = null
         resolve()
       })
     })
