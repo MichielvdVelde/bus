@@ -22,9 +22,7 @@ bus.setPattern('statusUpdate', 'devices/+deviceId/status')
 
 bus.connect().then(() => {
   // This function will be called each time `statusUpdate` is received
-  // By not using an arrow function `bus` can bind it to the context given in
-  // `Bus.create`
-  bus.onLabel('statusUpdate', function (packet) {
+  bus.on('statusUpdate', function (packet) {
     console.log(`Device ${packet.params.deviceId} is now ${packet.payload}`)
   })
 
