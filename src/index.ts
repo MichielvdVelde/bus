@@ -43,7 +43,7 @@ export enum Status {
 
 export class Bus {
   static create (clientId: string, url: string, opts?: IBusOptions): Bus {
-    return new Bus(url, Object.assign({}, { clientId: clientId }, opts || {}))
+    return new Bus(url, Object.assign({}, opts || {}, { clientId: clientId }))
   }
 
   private _url: string
