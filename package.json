@@ -10,6 +10,9 @@
   "scripts": {
     "prepare": "tsc"
   },
+  "engines": {
+    "node": "^7.10.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MichielvdVelde/bus.git"
