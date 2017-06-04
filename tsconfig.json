@@ -5,6 +5,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "noImplicitAny": true,
+    "declaration": true,
     "outDir": "./dist"
   },
   "include": [
