@@ -31,6 +31,16 @@ export interface IClientPublishOptions extends mqtt.IClientPublishOptions {
   //
 }
 
+export enum Status {
+  READY,
+  CONNECTING,
+  CONNECTED,
+  RECONNECTING,
+  OFFLINE,
+  CLOSED,
+  ERROR
+}
+
 export class Bus {
   static create (clientId: string, url: string, opts?: IBusOptions): Bus {
     return new Bus(url, Object.assign({}, { clientId: clientId }, opts || {}))
@@ -38,6 +48,8 @@ export class Bus {
 
   private _url: string
   private _opts: IBusOptions
+  private _status: Status = Status.READY
+  private _statusError: Error = null
   private _patterns: Map<string, Pattern> = new Map()
   private _messageEvents = new EventEmitter()
   private _subscriptionTopics: string[] = []
@@ -62,6 +74,22 @@ export class Bus {
    */
   public isAvailable (): boolean {
     return this._client && this._client !== null
+  }
+
+  /**
+   * Gets the current status.
+   * @return {Status} The current status
+   */
+  public getStatus (): Status {
+    return this._status
+  }
+
+  /**
+   * Gets the error status, or null if no error occured.
+   * @return {Error} The error
+   */
+  public getStatusError (): Error|null {
+    return this._statusError
   }
 
   /**
@@ -286,11 +314,11 @@ export class Bus {
    * Adds all the necessary event emitters to the underlying MQTT client.
    */
   private _addEventListeners (): void {
-    // this._client.on('connect', () => { this._setStatus(Status.CONNECTED) })
-    // this._client.on('reconnect', () => { this._setStatus(Status.RECONNECTING) })
-    // this._client.on('offline', () => { this._setStatus(Status.OFFLINE) })
-    // this._client.on('close', () => { this._setStatus(Status.CLOSED) })
-    // this._client.on('error', err => { this._setStatus(Status.ERROR) })
+    this._client.on('connect', () => { this._status = Status.CONNECTED })
+    this._client.on('reconnect', () => { this._status = Status.RECONNECTING })
+    this._client.on('offline', () => { this._status = Status.OFFLINE })
+    this._client.on('close', () => { this._status = Status.CLOSED })
+    this._client.on('error', err => { this._status = Status.ERROR, this._statusError = err })
 
     this._client.on('message', (topic: string, message: string, packet: IPacket) => {
       packet.isJson = false
