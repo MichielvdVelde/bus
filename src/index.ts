@@ -73,7 +73,7 @@ export class Bus {
    * @return {boolean} True if the bus is available
    */
   public isAvailable (): boolean {
-    return this._client && this._client !== null
+    return this._client && this._client !== null && (this._client.connected || this._client.reconnecting)
   }
 
   /**
