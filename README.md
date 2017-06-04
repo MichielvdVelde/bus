@@ -44,7 +44,7 @@ bus.publish('updateConfig', { keys: [ 'status' ] }, 'online')
 
 ## To Do
 
-This list is not exhaustive and my change at any moment.
+This list is not exhaustive and may change at any moment.
 
 - Check the `listenerCount()` for messages in `_handleMessagePacket`
 - Improve JSON parse in `on('message')` (currently numbers are seen as valid JSON)
