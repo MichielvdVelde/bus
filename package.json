@@ -5,6 +5,7 @@
   "description": "MQTT message bus",
   "author": "Michiel van der Velde <michiel@michielvdvelde.nl>",
   "license": "MIT",
+  "main": "dist/index.js",
   "scripts": {
     "prepare": "tsc"
   },
