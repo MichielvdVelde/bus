@@ -1,11 +1,20 @@
 {
-  "name": "buss",
+  "name": "bus",
   "version": "0.0.1-alpha",
   "private": true,
-  "license": "MIT",
   "description": "MQTT message bus",
+  "author": "Michiel van der Velde <michiel@michielvdvelde.nl>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichielvdVelde/bus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MichielvdVelde/bus/issues"
+  },
+  "homepage": "https://github.com/MichielvdVelde/bus#readme",
   "dependencies": {
-    "@types/node": "^7.0.22",
-    "mqtt": "^2.8.0"
+    "@types/node": "^7.0.27",
+    "mqtt": "^2.8.1"
   }
 }
