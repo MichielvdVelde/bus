@@ -50,6 +50,7 @@ export class Bus {
   private _opts: IBusOptions
   private _status: Status
   private _statusError: Error
+  private _onStatusChange: (status: Status, error?: Error) => void
   private _patterns: Map<string, Pattern>
   private _messageEvents: EventEmitter
   private _subscriptionTopics: string[]
@@ -91,6 +92,14 @@ export class Bus {
    */
   public getStatusError (): Error|null {
     return this._statusError
+  }
+
+  /**
+   * Sets the method that is called when the status changes.
+   * @param  {Error}  fn The method to call
+   */
+  public onStatusChange (fn: (status: Status, error: Error) => void): void {
+    this._onStatusChange = fn
   }
 
   /**
@@ -190,6 +199,7 @@ export class Bus {
       }
 
       const onConnect = (connack: IConnackPacket): void => {
+        this._statusChanged(Status.CONNECTED)
         this._client.removeListener('error', onError)
         this._addEventListeners()
         resolve(connack)
@@ -198,9 +208,11 @@ export class Bus {
       const onError = (err: Error) => {
         this._client.removeListener('connect', onConnect)
         this._client = null
+        this._statusChanged(Status.ERROR, err)
         reject(err)
       }
 
+      this._statusChanged(Status.CONNECTING)
       this._client = mqtt.connect(this._url, this._opts)
       this._client.once('connect', onConnect)
       this._client.once('error', onError)
@@ -349,11 +361,11 @@ export class Bus {
    * Adds all the necessary event emitters to the underlying MQTT client.
    */
   private _addEventListeners (): void {
-    this._client.on('connect', () => { this._status = Status.CONNECTED })
-    this._client.on('reconnect', () => { this._status = Status.RECONNECTING })
-    this._client.on('offline', () => { this._status = Status.OFFLINE })
-    this._client.on('close', () => { this._status = Status.CLOSED })
-    this._client.on('error', err => { this._status = Status.ERROR, this._statusError = err })
+    this._client.on('connect', () => { this._statusChanged(Status.CONNECTED) })
+    this._client.on('reconnect', () => { this._statusChanged(Status.RECONNECTING) })
+    this._client.on('offline', () => { this._statusChanged(Status.OFFLINE) })
+    this._client.on('close', () => { this._statusChanged(Status.CLOSED) })
+    this._client.on('error', err => { this._statusChanged(Status.ERROR, err) })
 
     this._client.on('message', (topic: string, message: string, packet: IPacket) => {
       packet.isJson = false
@@ -380,6 +392,19 @@ export class Bus {
         this._messageEvents.emit(label, packet)
         break
       }
+    }
+  }
+
+  /**
+   * Sets the new status and optional error and calls the status change method, if set.
+   * @param {Status}   status The new status
+   * @param {Error}     error The error, if any
+   */
+  private _statusChanged (status: Status, error: Error = null): void {
+    this._status = status
+    if (error !== null) this._statusError = error
+    if (typeof this._onStatusChange === 'function') {
+      this._onStatusChange(status, error)
     }
   }
 }

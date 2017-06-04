@@ -48,11 +48,11 @@ This list is not exhaustive and may change at any moment.
 
 - Check the `listenerCount()` for messages in `_handleMessagePacket`
 - Improve JSON parse in `on('message')` (currently numbers are seen as valid JSON)
-- Better handling of the mqtt.js `error` event in `bus._addEventListeners()`
 
 ## Done
 
 - Improve `bus.isAvailable()` so the correct statuses are taken into account
+- Better handling of the mqtt.js `error` event in `bus._addEventListeners()`
 
 ## Inspired by
 
