@@ -48,16 +48,17 @@ export class Bus {
 
   private _url: string
   private _opts: IBusOptions
-  private _status: Status = Status.READY
-  private _statusError: Error = null
-  private _patterns: Map<string, Pattern> = new Map()
-  private _messageEvents = new EventEmitter()
-  private _subscriptionTopics: string[] = []
-  private _client: mqtt.Client = null
+  private _status: Status
+  private _statusError: Error
+  private _patterns: Map<string, Pattern>
+  private _messageEvents: EventEmitter
+  private _subscriptionTopics: string[]
+  private _client: mqtt.Client
 
   public constructor (url: string, opts?: IBusOptions) {
     this._url = url
     this._opts = opts
+    this._reset()
   }
 
   /**
@@ -218,8 +219,7 @@ export class Bus {
       }
 
       this._client.end(force, () => {
-        this._client.removeAllListeners()
-        this._client = null
+        this._reset()
         resolve()
       })
     })
@@ -321,6 +321,28 @@ export class Bus {
         resolve()
       })
     })
+  }
+
+  /**
+   * Resets all instance properties.
+   */
+  private _reset (): void {
+    this._status = Status.READY
+    this._statusError = null
+    this._patterns = new Map()
+    this._subscriptionTopics = []
+
+    // If _messageEvents is set, first remove all listeners
+    if (this._messageEvents instanceof EventEmitter) {
+      this._messageEvents.removeAllListeners()
+    }
+    this._messageEvents = new EventEmitter()
+
+    // If _client is set, first remove all listeners
+    if (this._client) {
+      this._client.removeAllListeners()
+    }
+    this._client = null
   }
 
   /**
