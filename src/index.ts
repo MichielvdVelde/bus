@@ -108,6 +108,19 @@ export class Bus {
   }
 
   /**
+   * Removes a pattern with the given label.
+   * @param  {string} label The pattern label
+   * @return {Bus}          The Bus instance
+   */
+  public removePattern (label: string): Bus {
+    if (this._patterns.has(label)) {
+      throw new Error(`unknown label (${label})`)
+    }
+    this._patterns.delete(label)
+    return this
+  }
+
+  /**
    * Adds an event listener for the given label.
    * @param  {string}   label The label
    * @param  {Function} fn    The listener method
