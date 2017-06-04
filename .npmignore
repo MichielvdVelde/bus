@@ -1,5 +1,0 @@
-# ignore test file
-dist/test.js
-
-# ignore tsonfig
-tsconfig.json
