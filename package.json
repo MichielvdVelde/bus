@@ -5,6 +5,9 @@
   "description": "MQTT message bus",
   "author": "Michiel van der Velde <michiel@michielvdvelde.nl>",
   "license": "MIT",
+  "scripts": {
+    "prepare": "tsc"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MichielvdVelde/bus.git"
@@ -16,5 +19,8 @@
   "dependencies": {
     "@types/node": "^7.0.27",
     "mqtt": "^2.8.1"
+  },
+  "devDependencies": {
+    "typescript": "^2.3.4"
   }
 }
