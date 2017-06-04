@@ -6,6 +6,7 @@
   "author": "Michiel van der Velde <michiel@michielvdvelde.nl>",
   "license": "MIT",
   "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "prepare": "tsc"
   },
