@@ -11,7 +11,7 @@
     "prepare": "tsc"
   },
   "engines": {
-    "node": "^7.10.0"
+    "node": "=>7.10.0"
   },
   "repository": {
     "type": "git",
