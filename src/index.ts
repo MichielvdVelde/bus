@@ -257,7 +257,7 @@ export class Bus {
       const pattern = this._patterns.get(label)
       const index = this._subscriptionTopics.indexOf(pattern.getTopic())
       if (index === -1) {
-        return reject(new Error('not subscribed to label'))
+        return reject(new Error('not subscribed to topic'))
       }
 
       this._client.unsubscribe(pattern.getTopic(), err => {
