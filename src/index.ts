@@ -263,7 +263,7 @@ export class Bus {
       this._client.unsubscribe(pattern.getTopic(), err => {
         if (err) return reject(err)
         this._subscriptionTopics.splice(index, 1)
-        if (removeListeners) this._messageEvents.removeAllListeners(label)
+        if (removeListeners) this.removeAllListeners(label)
         resolve()
       })
     })
